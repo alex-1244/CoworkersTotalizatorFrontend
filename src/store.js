@@ -8,7 +8,7 @@ export default new Vuex.Store({
     token: null,
   },
   mutations: {
-    login_succeeded(state, token) {
+    loginSuccess(state, token) {
       this.state.token = token;
     },
   },
