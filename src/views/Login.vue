@@ -41,12 +41,18 @@ export default {
   methods: {
     login: function login() {
       if (!this.showPassword) {
-        api.post('https://localhost:44364/api/login/login', `"${this.localUserEmail}"`).then(() => {
-          this.showPassword = true;
-        });
+        api
+          .post(
+            'https://localhost:44364/api/login/login',
+            `"${this.localUserEmail}"`,
+          )
+          .then(() => {
+            this.showPassword = true;
+          });
       } else if (this.localPassword) {
         this.validateToken(this.localPassword).then(() => {
           this.$store.commit('loginSuccess', this.localPassword);
+          this.$router.push({ name: 'home' });
         });
       }
     },
@@ -54,7 +60,10 @@ export default {
       this.localError = null;
     },
     validateToken: function validateToken(token) {
-      return api.post('https://localhost:44364/api/login/validate', `"${token}"`);
+      return api.post(
+        'https://localhost:44364/api/login/validate',
+        `"${token}"`,
+      );
     },
   },
 };
