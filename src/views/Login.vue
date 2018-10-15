@@ -43,7 +43,7 @@ export default {
       if (!this.showPassword) {
         api
           .post(
-            'https://localhost:44364/api/login/login',
+            '/api/login/login',
             `"${this.localUserEmail}"`,
           )
           .then(() => {
@@ -61,7 +61,7 @@ export default {
     },
     validateToken: function validateToken(token) {
       return api.post(
-        'https://localhost:44364/api/login/validate',
+        '/api/login/validate',
         `"${token}"`,
       );
     },
