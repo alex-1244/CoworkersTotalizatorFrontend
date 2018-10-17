@@ -1,7 +1,5 @@
 <template>
   <div class="ct-grid-wrapper" v-bind:class="customCss.wrapperCss">
-      Inside grid
-      <!-- {{gridData}} -->
       <table v-bind:class="customCss.tableCss">
         <thead>
             <tr>
@@ -78,8 +76,3 @@ export default {
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="less">
-
-</style>

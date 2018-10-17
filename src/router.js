@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
-import store from './store';
+import Home from '@/views/Home.vue';
+import store from '@/store';
 
 Vue.use(Router);
 
@@ -29,11 +29,13 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if (!store.state.token && to.name !== 'login') {
-    next({ name: 'login' });
+  if (store.state.token || to.name === 'login') {
+    next();
+
+    return;
   }
 
-  next();
+  next({ name: 'login' });
 });
 
 export default router;
