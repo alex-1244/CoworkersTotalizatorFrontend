@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form v-on:input.prevent="onFormChange">
+        <form @submit="login">
             <div>
                 <div class="input-ctrl">
                     <input v-model="localUserEmail" type="text" placeholder="Login name"/>
@@ -11,7 +11,7 @@
                     </div>
                 </transition>
                 <div>
-                    <input v-on:click="login" type="submit" />
+                    <input type="submit" />
                 </div>
             </div>
             <div class="error" v-if="localError">

@@ -10,17 +10,32 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form>
+        <form class="needs-validation" ref="cc.form">
             <div class="modal-body">
                 <div class="form-group">
                     <label for="nameInput">Name</label>
-                    <input v-model="name" type="text" class="form-control" id="nameInput"
+                    <input
+                        v-on:input="customError=null"
+                        v-bind:class="{ 'is-invalid': customError }"
+                        required="required"
+                        pattern="[a-zA-Z]{3,}\s*[a-zA-Z]*"
+                        v-model="name" type="text" class="form-control" id="nameInput"
                         aria-describedby="emailHelp" placeholder="Enter name">
+                    <div class="invalid-feedback" v-if="!customError">
+                        Name should be minmum three symbol and can only contain letters
+                    </div>
+                    <div class="invalid-feedback" v-if="customError">
+                        {{customError}}
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="coeficient">Coeficient</label>
-                    <input v-model="coeficient" type="text" class="form-control"
-                        id="coeficient" placeholder="Coeficient">
+                    <input
+                        required="required"
+                        pattern="^[0-1]{1}\.[0-9]{1,3}"
+                        v-model="coeficient" type="number" class="form-control"
+                        id="coeficient" placeholder="Coeficient" step=".001">
+                    <div class="invalid-feedback">Coeficient should be in format '0.999'</div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -28,8 +43,7 @@
                     class="btn btn-outline-secondary" data-dismiss="modal">
                     Close
                 </button>
-                <button type="button" v-on:click="create()"
-                    class="btn btn-outline-primary">
+                <button type="buton" v-on:click="create()" class="btn btn-outline-primary">
                     Create
                 </button>
             </div>
@@ -50,13 +64,28 @@ export default {
     return {
       name: null,
       coeficient: null,
+      customError: null,
     };
   },
   methods: {
     create: function createCoworker() {
-      api.post
-        
-      this.$emit('close', true);
+      // form element
+      const e = this.$refs['cc.form'];
+
+      if (e.checkValidity() === false) {
+        e.classList.add('was-validated');
+        return;
+      }
+
+      api.post('/api/coworkers', {
+        Name: this.name,
+        PresenceCoeficient: this.coeficient,
+      }).then(() => {
+        debugger;
+        this.$emit('close', true);
+      }, (err) => {
+        this.customError = err;
+      });
     },
   },
 };
@@ -70,5 +99,9 @@ export default {
 
  .form-group label {
      float: left;
+ }
+
+ .form-group .invalid-feedback {
+     text-align: left;
  }
 </style>
