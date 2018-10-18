@@ -46,6 +46,12 @@ export default {
     },
     getCoworkers: function getCoworkers() {
       return api.get('/api/coworkers').then((data) => {
+        if (!data || data.length === 0) {
+          this.coworkers = null;
+          this.coworkersGridData = null;
+          return;
+        }
+
         this.coworkers = data;
 
         this.coworkersGridData = {
