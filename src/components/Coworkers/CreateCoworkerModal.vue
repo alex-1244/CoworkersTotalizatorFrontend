@@ -95,12 +95,4 @@ export default {
      display: block;
      background-color: rgba(100, 100, 100, 0.8);
  }
-
- .form-group label {
-     float: left;
- }
-
- .form-group .invalid-feedback {
-     text-align: left;
- }
 </style>
