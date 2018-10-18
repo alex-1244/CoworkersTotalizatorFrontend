@@ -81,6 +81,7 @@ export default {
         const firstElemProps = this.getObjectProperties(firstElem);
         gridData.props = firstElemProps;
         gridData.rows = data.data;
+        gridData.skipBootstrap = !!data.skipBootstrap;
       }
 
       return gridData;
