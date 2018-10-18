@@ -2,6 +2,7 @@
   <div class="container">
     <div class="home row">
       <div class="col-md-12">
+        <label>Coworkers:</label>
         <CoworkersGrid></CoworkersGrid>
       </div>
     </div>
@@ -22,5 +23,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-
+label {
+     float: left;
+}
 </style>

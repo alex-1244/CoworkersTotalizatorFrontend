@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CtGrid v-if="coworkers != null" v-bind:data="coworkers" />
+    <CtGrid v-if="coworkersGridData != null" v-bind:data="coworkersGridData" />
     <button v-on:click="createCoworker"
         type="button" class="btn btn-outline-primary float-right">Create Coworker</button>
     <CtCreateCoworkerModal
@@ -11,12 +11,12 @@
 
 <script>
 // @ is an alias to /src
-import CtCreateCoworkerModal from '@/components/CreateCoworkerModal.vue';
+import CtCreateCoworkerModal from '@/components/Coworkers/CreateCoworkerModal.vue';
 import CtGrid from '@/components/Grid.vue';
 import api from '@/services/api';
 
 export default {
-  name: 'coworkersGrid',
+  name: 'CoworkersGrid',
   components: {
     CtCreateCoworkerModal,
     CtGrid,
@@ -26,6 +26,7 @@ export default {
 
     return {
       coworkers: null,
+      coworkersGridData: null,
       showCreateModal: false,
     };
   },
@@ -45,11 +46,14 @@ export default {
     },
     getCoworkers: function getCoworkers() {
       return api.get('/api/coworkers').then((data) => {
-        this.coworkers = data.map((element) => {
-          const elem = element;
-          elem.deleteItem = () => this.deleteCoworker(elem);
-          return elem;
-        });
+        this.coworkers = data;
+
+        this.coworkersGridData = {
+          data: this.coworkers,
+          actions: {
+            deleteItem: this.deleteCoworker,
+          },
+        };
       });
     },
   },

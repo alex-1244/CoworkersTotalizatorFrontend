@@ -6,7 +6,7 @@
                 <th v-for="prop in gridData.props" v-bind:key="prop">
                     {{prop}}
                 </th>
-                <th>Actions</th>
+                <th v-if="gridData.actions">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -14,9 +14,10 @@
                 <td v-for="prop in gridData.props" v-bind:key="prop">
                     {{getRowData(row, prop)}}
                 </td>
-                <td>
+                <td v-if="gridData.actions">
                     <button type="button" class="btn btn-outline-danger"
-                        @click="row.deleteItem()">
+                        v-if="gridData.actions.deleteItem"
+                        @click="gridData.actions.deleteItem(row)">
                         Delete
                     </button>
                 </td>
@@ -64,6 +65,7 @@ export default {
       const gridData = {
         props: [],
         rows: [],
+        actions: null,
         skipBootstrap: false,
       };
 
@@ -72,6 +74,13 @@ export default {
         const firstElemProps = this.getObjectProperties(firstElem);
         gridData.props = firstElemProps;
         gridData.rows = data;
+      } else {
+        gridData.actions = data.actions;
+
+        const firstElem = data.data[0];
+        const firstElemProps = this.getObjectProperties(firstElem);
+        gridData.props = firstElemProps;
+        gridData.rows = data.data;
       }
 
       return gridData;
