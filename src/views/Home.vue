@@ -26,9 +26,7 @@ export default {
     CtGrid,
   },
   data: function homeData() {
-    this.getCoworkers().then((data) => {
-      this.coworkers = data;
-    });
+    this.getCoworkers();
 
     return {
       coworkers: null,
@@ -36,11 +34,12 @@ export default {
     };
   },
   methods: {
+    deleteCoworker: function deleteCoworker(elem) {
+      api.deleteApi(`/api/coworkers/${elem.id}`).then(this.getCoworkers);
+    },
     createCoworkerModalClosed: function createCoworkerModalClosed(success) {
       if (success) {
-        this.getCoworkers().then((data) => {
-          this.coworkers = data;
-        });
+        this.getCoworkers();
       }
 
       this.showCreateModal = false;
@@ -49,7 +48,13 @@ export default {
       this.showCreateModal = true;
     },
     getCoworkers: function getCoworkers() {
-      return api.get('/api/coworkers');
+      return api.get('/api/coworkers').then((data) => {
+        this.coworkers = data.map((element) => {
+          const elem = element;
+          elem.deleteItem = () => this.deleteCoworker(elem);
+          return elem;
+        });
+      });
     },
   },
 };

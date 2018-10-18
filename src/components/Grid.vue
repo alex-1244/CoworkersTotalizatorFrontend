@@ -6,12 +6,19 @@
                 <th v-for="prop in gridData.props" v-bind:key="prop">
                     {{prop}}
                 </th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="row in gridData.rows" v-bind:key="row.id">
                 <td v-for="prop in gridData.props" v-bind:key="prop">
                     {{getRowData(row, prop)}}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger"
+                        @click="row.deleteItem()">
+                        Delete
+                    </button>
                 </td>
             </tr>
         </tbody>
@@ -71,7 +78,10 @@ export default {
     },
     getObjectProperties: function getObjectProperties(obj) {
       const propertyNames = Object.getOwnPropertyNames(obj);
-      return propertyNames.filter(name => name !== '__ob__');
+      return propertyNames.filter(name => name !== '__ob__' && !this.isFunction(obj[name]));
+    },
+    isFunction: function isFunction(functionToCheck) {
+      return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
     },
   },
 };

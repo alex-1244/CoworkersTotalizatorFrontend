@@ -81,7 +81,6 @@ export default {
         Name: this.name,
         PresenceCoeficient: this.coeficient,
       }).then(() => {
-        debugger;
         this.$emit('close', true);
       }, (err) => {
         this.customError = err;
