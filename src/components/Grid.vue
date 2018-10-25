@@ -3,7 +3,7 @@
       <table v-bind:class="customCss.tableCss">
         <thead>
             <tr>
-                <th v-for="prop in gridData.props" v-bind:key="prop">
+                <th v-for="prop in gridData.props" v-bind:key="prop.id">
                     {{prop}}
                 </th>
                 <th v-if="gridData.actions">Actions</th>
@@ -77,9 +77,14 @@ export default {
       } else {
         gridData.actions = data.actions;
 
-        const firstElem = data.data[0];
-        const firstElemProps = this.getObjectProperties(firstElem);
-        gridData.props = firstElemProps;
+        if (!data.props) {
+          const firstElem = data.data[0];
+          const firstElemProps = this.getObjectProperties(firstElem);
+          gridData.props = firstElemProps;
+        } else {
+          gridData.props = data.props;
+        }
+
         gridData.rows = data.data;
         gridData.skipBootstrap = !!data.skipBootstrap;
       }

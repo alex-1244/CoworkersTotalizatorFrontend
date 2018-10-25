@@ -2,8 +2,8 @@
   <div class="container">
     <div class="home row">
       <div class="col-md-12">
-        <label>Coworkers:</label>
-        <CoworkersGrid></CoworkersGrid>
+        <label>Lotteries:</label>
+        <LotteriesGrid></LotteriesGrid>
       </div>
     </div>
   </div>
@@ -11,12 +11,12 @@
 
 <script>
 // @ is an alias to /src
-import CoworkersGrid from '@/components/Coworkers/CoworkersGrid.vue';
+import LotteriesGrid from '@/components/Lotteries/LotteriesGrid.vue';
 
 export default {
-  name: 'Coworkers',
+  name: 'Lotteries',
   components: {
-    CoworkersGrid,
+    LotteriesGrid,
   },
 };
 </script>
