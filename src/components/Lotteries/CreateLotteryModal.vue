@@ -41,19 +41,27 @@
                     <div>
                         <label for="assignCoworkers">Coworkers</label>
                     </div>
-                    <div v-for="coworker in this.coworkers" v-bind:key="coworker.id">
-                        <div v-if="coworker.isAssigned">
-                            <span>{{coworker.name}}</span> -
-                            <span>{{coworker.coeficient}}</span>
-                            <span
-                                class="btn btn-outline-danger"
-                                @click="coworker.isAssigned=false">
-                                Delete
-                            </span>
+                    <div
+                        class="assignedCoworker"
+                        v-for="coworker in this.coworkers"
+                        v-bind:key="coworker.id"
+                        v-if="coworker.isAssigned">
+                        <div class="row">
+                            <div class="col-md-4">{{coworker.name}}</div>
+                            <div class="col-md-4">{{coworker.presenceCoeficient}}</div>
+                            <div class="col-md-4" v-if="!readonly">
+                                <div
+                                    class="btn btn-outline-danger float-right"
+                                    @click="coworker.isAssigned=false">
+                                    Delete
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button class="btn btn-outline-primary" id="assignCoworkers"
-                        type="button" @click="showAssignPopup = true">
+                        type="button"
+                        v-if="!readonly"
+                        @click="showAssignPopup = true">
                         Assign
                     </button>
                 </div>
@@ -63,8 +71,12 @@
                     class="btn btn-outline-secondary" data-dismiss="modal">
                     Close
                 </button>
-                <button type="buton" @click="create()" class="btn btn-outline-primary">
-                    Create
+                <button
+                    v-if="!readonly"
+                    @click="create()"
+                    type="buton"
+                    class="btn btn-outline-primary">
+                        Create
                 </button>
             </div>
         </form>
@@ -89,8 +101,13 @@ export default {
     AssignCoworkersToLottery,
   },
   props: {
+    data: Object,
   },
   data: function CreateCoworkerModalData() {
+    if (this.data) {
+      return this.getViewModel();
+    }
+
     this.getCoworkers();
 
     return {
@@ -99,10 +116,11 @@ export default {
       coworkers: [],
       customError: null,
       showAssignPopup: false,
+      readonly: false,
     };
   },
   methods: {
-    create: function createCoworker() {
+    create: function createLottery() {
       // form element
       const e = this.$refs['cc.form'];
 
@@ -111,7 +129,11 @@ export default {
         return;
       }
 
-      api.post();
+      api.post('/api/lottery', {
+        Name: this.name,
+        Date: this.date,
+        coworkerIds: this.coworkers.filter(el => el.isAssigned).map(el => el.id),
+      }).then(() => this.$emit('close', true));
     },
     assignCoworkers: function assignCoworkers(coworkerIds) {
       this.showAssignPopup = false;
@@ -126,6 +148,24 @@ export default {
         });
       });
     },
+    getViewModel: function getViewModel() {
+      this.getCoworkers().then(() => {
+        this.coworkers = this.coworkers.map((el) => {
+          const newEl = el;
+          newEl.isAssigned = this.data.coworkerIds.indexOf(el.id) > -1;
+          return newEl;
+        });
+      });
+
+      return {
+        name: this.data.name,
+        date: this.data.date,
+        coworkers: [],
+        customError: null,
+        showAssignPopup: false,
+        readonly: true,
+      };
+    },
   },
 };
 </script>
@@ -135,4 +175,12 @@ export default {
      display: block;
      background-color: rgba(100, 100, 100, 0.8);
  }
+
+ .modal-body .row {
+    margin-top: 5px;
+}
+
+.assignedCoworker {
+    font-weight: bold;
+}
 </style>

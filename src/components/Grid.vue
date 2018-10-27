@@ -1,6 +1,6 @@
 <template>
   <div class="ct-grid-wrapper" v-bind:class="customCss.wrapperCss">
-      <table v-bind:class="customCss.tableCss">
+      <table v-bind:class="customCss.tableCss" class="table table-striped">
         <thead>
             <tr>
                 <th v-for="prop in gridData.props" v-bind:key="prop.id">
@@ -15,11 +15,18 @@
                     {{getRowData(row, prop)}}
                 </td>
                 <td v-if="gridData.actions">
-                    <button type="button" class="btn btn-outline-danger"
-                        v-if="gridData.actions.deleteItem"
-                        @click="gridData.actions.deleteItem(row)">
-                        Delete
-                    </button>
+                  <div class="grid-actions float-right">
+                    <button type="button" class="btn btn-outline-primary"
+                          v-if="gridData.actions.viewItem"
+                          @click="gridData.actions.viewItem(row)">
+                          View
+                      </button>
+                      <button type="button" class="btn btn-outline-danger"
+                          v-if="gridData.actions.deleteItem"
+                          @click="gridData.actions.deleteItem(row)">
+                          Delete
+                      </button>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -101,3 +108,9 @@ export default {
   },
 };
 </script>
+
+<style lang="less" scoped>
+.grid-actions button {
+  margin-right: 5px;
+}
+</style>

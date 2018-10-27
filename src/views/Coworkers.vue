@@ -2,7 +2,6 @@
   <div class="container">
     <div class="home row">
       <div class="col-md-12">
-        <label>Coworkers:</label>
         <CoworkersGrid></CoworkersGrid>
       </div>
     </div>

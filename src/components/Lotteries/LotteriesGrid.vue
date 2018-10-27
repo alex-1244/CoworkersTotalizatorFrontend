@@ -1,10 +1,11 @@
 <template>
   <div>
     <CtGrid v-if="lotteriesGridData != null" v-bind:data="lotteriesGridData" />
-    <button v-on:click="createCoworker"
+    <button v-on:click="createLottery"
         type="button" class="btn btn-outline-primary float-right">Create Lottery</button>
     <CtCreateLotteryModal
         v-if="showCreateModal"
+        v-bind:data="this.currentlottery"
         v-on:close="createCoworkerModalClosed($event)" />
   </div>
 </template>
@@ -22,43 +23,50 @@ export default {
     CtGrid,
   },
   data: function homeData() {
-    this.getCoworkers();
+    this.getLotteries();
 
     return {
-      coworkers: null,
+      lotteries: null,
       lotteriesGridData: null,
       showCreateModal: false,
+      currentlottery: null,
     };
   },
   methods: {
-    deleteCoworker: function deleteCoworker(elem) {
-      api.deleteApi(`/api/lottery/${elem.id}`).then(this.getCoworkers);
+    deleteLottery: function deleteLottery(elem) {
+      api.deleteApi(`/api/lottery/${elem.id}`).then(this.getLotteries);
     },
     createCoworkerModalClosed: function createCoworkerModalClosed(success) {
       if (success) {
-        this.getCoworkers();
+        this.getLotteries();
       }
 
       this.showCreateModal = false;
+      this.currentlottery = null;
     },
-    createCoworker: function createCoworker() {
+    createLottery: function createLottery() {
       this.showCreateModal = true;
     },
-    getCoworkers: function getCoworkers() {
+    viewLottery: function viewLottery(lotteryData) {
+      this.showCreateModal = true;
+      this.currentlottery = lotteryData;
+    },
+    getLotteries: function getLotteries() {
       return api.get('/api/lottery').then((data) => {
         if (!data || data.length === 0) {
-          this.coworkers = null;
+          this.lotteries = null;
           this.lotteriesGridData = null;
           return;
         }
 
-        this.coworkers = data;
+        this.lotteries = data;
 
         this.lotteriesGridData = {
-          data: this.coworkers,
+          data: this.lotteries,
           props: ['name', 'date'],
           actions: {
-            deleteItem: this.deleteCoworker,
+            viewItem: this.viewLottery,
+            deleteItem: this.deleteLottery,
           },
         };
       });
