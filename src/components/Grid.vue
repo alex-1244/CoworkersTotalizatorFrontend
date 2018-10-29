@@ -3,7 +3,9 @@
       <table v-bind:class="customCss.tableCss" class="table table-striped">
         <thead>
             <tr>
-                <th v-for="prop in gridData.props" v-bind:key="prop.id">
+                <th
+                  class="grid-header"
+                  v-for="prop in gridData.props" v-bind:key="prop.id">
                     {{prop}}
                 </th>
                 <th v-if="gridData.actions">Actions</th>
@@ -25,6 +27,14 @@
                           v-if="gridData.actions.deleteItem"
                           @click="gridData.actions.deleteItem(row)">
                           Delete
+                      </button>
+                      <button
+                        class="btn btn-outline-primary"
+                        v-for="(val, key) in gridData.actions"
+                        v-bind:key="key"
+                        v-if="key != 'deleteItem' && key != 'viewItem'"
+                        @click="val.func(row)">
+                          {{val.title}}
                       </button>
                     </div>
                 </td>
@@ -112,5 +122,9 @@ export default {
 <style lang="less" scoped>
 .grid-actions button {
   margin-right: 5px;
+}
+
+.grid-header {
+  text-transform: capitalize;
 }
 </style>

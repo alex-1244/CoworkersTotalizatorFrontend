@@ -21,6 +21,11 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Lotteries.vue'),
     },
     {
+      path: '/userbids',
+      name: 'userbids',
+      component: () => import(/* webpackChunkName: "about" */ './views/UserBids.vue'),
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import(/* webpackChunkName: "about" */ './views/Login.vue'),

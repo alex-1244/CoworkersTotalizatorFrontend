@@ -4,6 +4,8 @@
       <router-link to="/">Coworkers</router-link>
       |
       <router-link to="/lotteries">Lotteries</router-link>
+      |
+      <router-link to="/userbids">User bids</router-link>
     </div>
     <router-view/>
   </div>
