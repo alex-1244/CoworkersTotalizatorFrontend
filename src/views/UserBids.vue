@@ -8,9 +8,10 @@
     </div>
   </div>
   <PlaceBid
-          v-if="currentLotteryId"
-          v-bind:lotteryId="currentLotteryId"
-          v-on:close="currentLotteryId = null" />
+          v-if="currentLottery"
+          v-bind:lotteryId="currentLottery.id"
+          v-bind:bids="currentLottery.coworkerBids"
+          v-on:close="currentLottery = null;getLotteries()" />
 </div>
 </template>
 
@@ -30,12 +31,12 @@ export default {
 
     return {
       lotteriesGridData: null,
-      currentLotteryId: null,
+      currentLottery: null,
     };
   },
   methods: {
     placeBid: function placeBid(data) {
-      this.currentLotteryId = data.id;
+      this.currentLottery = data;
     },
     getLotteries: function getLotteries() {
       return api.get('/api/lottery').then((data) => {

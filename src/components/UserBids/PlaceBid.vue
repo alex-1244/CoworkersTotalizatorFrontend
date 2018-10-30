@@ -18,14 +18,14 @@
                             <div class="col-md-4 coworker-info">
                                 {{coworker.name}}
                             </div>
-                            <div class="col-md-2 coworker-info">
+                            <div class="col-md-4 coworker-info">
                                 {{coworker.presenceCoeficient}}
                             </div>
                             <div class="col-md-4">
                                 <input class="form-control" placeholder="bid ammount" type="text"
                                     v-model="coworker.bidAmmount">
                             </div>
-                            <div class="col-md-2">
+                            <!-- <div class="col-md-2">
                                 <div class="btn btn-outline-primary float-right"
                                     v-if="!coworker.isAssigned"
                                     @click="placeBid(coworker)">
@@ -36,7 +36,7 @@
                                     @click="coworker.isAssigned = false">
                                         Unassign
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -63,6 +63,7 @@ export default {
   name: 'PlaceBid',
   props: {
     lotteryId: null,
+    bids: null,
   },
   data: function data() {
     this.getAssigneCoworkers(this.lotteryId);
@@ -72,13 +73,10 @@ export default {
     };
   },
   methods: {
-    getMyBidsForLottery: function getMyBidsForLottery() {
-      // get my bids for this lottery via API
-    },
     getAssigneCoworkers: function getAssigneCoworkers(lotteryId) {
       return api.get(`/api/lottery/assignedCoworkers/${lotteryId}`)
         .then((data) => {
-          this.coworkers = data;
+          this.coworkers = data.map(this.setExistingBids);
         });
     },
     placeBids: function placeBids() {
@@ -91,6 +89,15 @@ export default {
         .then(() => {
           this.$emit('close', true);
         });
+    },
+    setExistingBids: function setExistingBids(coworker) {
+      const modifyedCoworker = coworker;
+      const existingBid = this.bids.find(bid => bid.coworkerId === coworker.id);
+      if (existingBid) {
+        modifyedCoworker.bidAmmount = existingBid.bidAmmount;
+      }
+
+      return modifyedCoworker;
     },
   },
 };
