@@ -1,3 +1,5 @@
+import store from '@/store';
+
 const defaultApiUrl = 'https://localhost:44364';
 
 export default {
@@ -5,6 +7,7 @@ export default {
     return new Promise((resolve) => {
       const req = new XMLHttpRequest();
       req.open('GET', defaultApiUrl + url, true);
+      req.setRequestHeader("Authorization", store.state.token);
       req.onreadystatechange = function onready() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
           resolve(JSON.parse(this.response));
@@ -17,6 +20,7 @@ export default {
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();
       req.open('POST', defaultApiUrl + url, true);
+      req.setRequestHeader("Authorization", store.state.token);
       req.setRequestHeader('Content-Type', 'application/json');
       req.onreadystatechange = function onready() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -37,6 +41,7 @@ export default {
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();
       req.open('DELETE', defaultApiUrl + url, true);
+      req.setRequestHeader("Authorization", store.state.token);
       req.setRequestHeader('Content-Type', 'application/json');
       req.onreadystatechange = function onready() {
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {

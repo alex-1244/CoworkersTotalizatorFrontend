@@ -40,8 +40,8 @@ router.beforeEach((to, from, next) => {
     return;
   }
 
-  next();
-  // next({ name: 'login' });
+  // next();
+  next({ name: 'login' });
 });
 
 export default router;

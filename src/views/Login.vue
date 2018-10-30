@@ -52,7 +52,7 @@ export default {
       } else if (this.localPassword) {
         this.validateToken(this.localPassword).then(() => {
           this.$store.commit('loginSuccess', this.localPassword);
-          this.$router.push({ name: 'home' });
+          this.$router.push({ name: 'Coworkers' });
         });
       }
     },
