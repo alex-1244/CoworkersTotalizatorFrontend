@@ -58,7 +58,17 @@ export default {
             },
           },
         };
+
+        if (this.$store.state.role === 'Admin') {
+          this.lotteriesGridData.actions.viewUsersBids = {
+            title: 'View users bids',
+            func: this.viewUsersBids,
+          };
+        }
       });
+    },
+    viewUsersBids: function viewUsersBids(data) {
+      this.$router.push({ name: 'usersBidsAdmin', params: { lotteryId: data.id } });
     },
   },
 };

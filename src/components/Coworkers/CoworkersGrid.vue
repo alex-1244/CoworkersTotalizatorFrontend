@@ -61,7 +61,7 @@ export default {
 
         if (this.$store.state.role === 'Admin') {
           this.coworkersGridData.actions = {
-            deleteItem: this.deleteCoworker
+            deleteItem: this.deleteCoworker,
           };
         }
       });

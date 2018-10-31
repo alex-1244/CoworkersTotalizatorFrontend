@@ -30,6 +30,12 @@ const router = new Router({
       name: 'login',
       component: () => import(/* webpackChunkName: "about" */ './views/Login.vue'),
     },
+    {
+      path: '/usersBids/:lotteryId',
+      name: 'usersBidsAdmin',
+      component: () => import('./views/UsersBidsAdmin.vue'),
+      props: true, // route => ({ lotteryId: route.query.lotteryId }),
+    },
   ],
 });
 
