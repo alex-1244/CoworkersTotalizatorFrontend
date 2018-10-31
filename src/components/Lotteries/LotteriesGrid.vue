@@ -66,9 +66,12 @@ export default {
           props: ['name', 'date'],
           actions: {
             viewItem: this.viewLottery,
-            deleteItem: this.deleteLottery,
           },
         };
+
+        if (this.$store.state.role === 'Admin') {
+          this.lotteriesGridData.actions.deleteItem = this.deleteLottery;
+        }
       });
     },
   },

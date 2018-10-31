@@ -56,10 +56,14 @@ export default {
 
         this.coworkersGridData = {
           data: this.coworkers,
-          actions: {
-            deleteItem: this.deleteCoworker,
-          },
+          props: ['id', 'name', 'presenceCoeficient'],
         };
+
+        if (this.$store.state.role === 'Admin') {
+          this.coworkersGridData.actions = {
+            deleteItem: this.deleteCoworker
+          };
+        }
       });
     },
   },
