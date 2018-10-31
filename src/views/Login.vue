@@ -50,8 +50,9 @@ export default {
             this.showPassword = true;
           });
       } else if (this.localPassword) {
-        this.validateToken(this.localPassword).then(() => {
+        this.validateToken(this.localPassword).then((userRole) => {
           this.$store.commit('loginSuccess', this.localPassword);
+          this.$store.commit('userRoleSet', userRole);
           this.$router.push({ name: 'Coworkers' });
         });
       }
