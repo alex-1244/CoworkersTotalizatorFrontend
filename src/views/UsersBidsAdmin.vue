@@ -1,6 +1,14 @@
 <template>
 <div>
   <div class="container">
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <button class="btn-nav btn btn-outline-primary" @click="$router.go(-1)">
+          <i class="fas fa-chevron-left"></i>
+          Back
+        </button>
+      </div>
+    </div>
     <div class="home row">
       <div class="col-md-12">
         <CtGrid v-if="bidsGridData != null" v-bind:data="bidsGridData" />
@@ -47,5 +55,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-
+.btn-nav i {
+  margin-left: -5px;
+}
 </style>
