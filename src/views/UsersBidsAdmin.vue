@@ -45,7 +45,7 @@ export default {
 
         this.bidsGridData = {
           data,
-          props: ['coworkerId', 'bidAmmount'],
+          props: ['userId', 'coworkerId', 'bidAmmount'],
         };
       });
     },

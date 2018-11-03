@@ -23,18 +23,18 @@ const router = new Router({
     {
       path: '/userbids',
       name: 'userbids',
-      component: () => import(/* webpackChunkName: "about" */ './views/UserBids.vue'),
+      component: () => import('./views/UserBids.vue'),
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "about" */ './views/Login.vue'),
+      component: () => import('./views/Login.vue'),
     },
     {
       path: '/usersBids/:lotteryId',
       name: 'usersBidsAdmin',
       component: () => import('./views/UsersBidsAdmin.vue'),
-      props: true, // route => ({ lotteryId: route.query.lotteryId }),
+      props: true,
     },
   ],
 });

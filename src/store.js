@@ -27,6 +27,13 @@ const store = new Vuex.Store({
       localStorage.setItem('role', userRole);
       this.state.role = userRole;
     },
+    logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('token_set_time');
+      localStorage.removeItem('role');
+      this.state.role = null;
+      this.state.token = null;
+    },
   },
   actions: {
   },

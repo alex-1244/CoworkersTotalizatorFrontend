@@ -1,15 +1,48 @@
 <template>
   <div id="app">
-    <div id="nav">
+  <ul class="nav">
+  <li class="nav-item">
+    <div class="nav-link">
       <router-link to="/">Coworkers</router-link>
-      |
+    </div>
+  </li>
+  <li class="nav-item">
+    <div class="nav-link">
       <router-link to="/lotteries">Lotteries</router-link>
-      |
+    </div>
+  </li>
+  <li class="nav-item">
+    <div class="nav-link">
       <router-link to="/userbids">User bids</router-link>
     </div>
+  </li>
+  <li class="nav-item ml-auto">
+    <a class="nav-link disabled" href="#">
+      <button
+        class="btn btn-outline-primary"
+        @click="logout">
+        Logout
+      </button>
+    </a>
+  </li>
+</ul>
     <router-view/>
   </div>
 </template>
+
+<script>
+import store from '@/store';
+
+export default {
+  name: 'App',
+  methods: {
+    logout: function logout() {
+      store.commit('logout');
+      this.$router.push({ name: 'login' });
+    },
+  },
+};
+</script>
 
 <style lang="less">
 #app {
